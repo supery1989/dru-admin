@@ -2,3 +2,5 @@
 
 declare module 'react-router-dom'
 declare module 'dru'
+declare module 'react-loadable'
+declare module 'nprogress'

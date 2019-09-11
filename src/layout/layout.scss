@@ -24,6 +24,9 @@ html, body {
   height: 100%;
   width: 100%;
 }
+#nprogress .bar {
+  background: #1890ff !important; //自定义颜色
+}
 .admin {
   &-logo {
     height: 32px;
@@ -45,6 +48,7 @@ html, body {
     &-block {
       height: 100vh;
       overflow-y: scroll;
+      overflow-x: hidden;
     }
   }
   &-content {

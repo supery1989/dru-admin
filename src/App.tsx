@@ -1,8 +1,21 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
-import { Layout, BackTop, Icon, Copyright, Menu } from 'dru'
+import { Layout, BackTop, Icon, Copyright } from 'dru'
 import './layout/layout.scss'
 import ComponentsRouter from './router'
+import CustomMenu from './layout/CustomMenu'
+
+const menus = [
+  {
+    title: '题目管理',
+    icon: 'table',
+    key: '/components/list'
+  },
+  {
+    title: '添加试题',
+    icon: 'plussquare-o',
+    key: '/components/add'
+  }
+]
 
 class App extends React.Component {
   state = {
@@ -23,12 +36,7 @@ class App extends React.Component {
         <Layout.Silder collapsed={this.state.collapsed} className='admin-slider'>
           <div className='admin-slider-block'>
             <div className='admin-logo'>管理系统</div>
-            <Menu collapsed={this.state.collapsed} theme='dark'>
-              <Menu.Item index='1'><Icon type='table' />
-                <Link className='admin-menu-link' to={`/components/list`}>查看</Link>
-              </Menu.Item>
-              <Menu.Item index='2'><Icon type='shop' /><span>菜单2</span></Menu.Item>
-            </Menu>
+            <CustomMenu menus={menus} collapsed={this.state.collapsed} />
           </div>
         </Layout.Silder>
         <Layout.Content auto style={{display: 'flex', flexDirection: 'column'}}>
