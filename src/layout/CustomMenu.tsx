@@ -37,8 +37,8 @@ class CustomMenu extends Component<CustomMenuProps> {
     if (menus.length) {
       return menus.map((menu: any) => {
         return (
-          <Menu.Item key={menu.key} index={menu.key}><Icon type={menu.icon} />
-            <Link className='admin-menu-link' to={menu.key}>{menu.title}</Link>
+          <Menu.Item key={menu.key} index={menu.key}>
+            <Link className='admin-menu-link' to={menu.key}><Icon type={menu.icon} />{menu.title}</Link>
           </Menu.Item>
         )
       })

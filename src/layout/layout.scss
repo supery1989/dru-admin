@@ -42,6 +42,7 @@ html, body {
     margin-left: 10px;
     color: #333;
     cursor: pointer;
+    flex: 1 auto;
   }
   &-slider {
     background: #001529;
@@ -56,6 +57,33 @@ html, body {
     &-block {
       min-height: 500px;
       padding: 16px;
+    }
+  }
+  &-menu {
+    &-link {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+  &-header {
+    &-block {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 100%;
+      .admin-nav {
+        width: 100px;
+        display: flex;
+        flex-direction: row;
+      }
+      .admin-shrink {
+        font-size: 20px;
+        color: #ccc;
+        cursor: pointer;
+      }
+      .admin-avatar {
+        margin-left: 20px;
+      }
     }
   }
 }

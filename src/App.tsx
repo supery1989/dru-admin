@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { Layout, BackTop, Icon, Copyright } from 'dru'
+import { Layout, BackTop, Copyright } from 'dru'
 import './layout/layout.scss'
 import ComponentsRouter from './router'
 import CustomMenu from './layout/CustomMenu'
+import Header from './layout/Header'
 
 const menus = [
   {
@@ -19,15 +20,11 @@ const menus = [
 
 class App extends React.Component {
   state = {
-    collapsed: false,
-    icon: 'indentleft'
+    collapsed: false
   }
 
-  handleClick() {
-    this.setState({
-      collapsed: !this.state.collapsed,
-      icon: this.state.collapsed ? 'indentleft' : 'indentright'
-    })
+  handleCollapsedClick(collapsed: boolean) {
+    this.setState({ collapsed })
   }
 
   public render() {
@@ -41,9 +38,7 @@ class App extends React.Component {
         </Layout.Silder>
         <Layout.Content auto style={{display: 'flex', flexDirection: 'column'}}>
           <Layout.Header style={{lineHeight: '64px'}} className='admin-header'>
-            <div className="admin-header-block">
-              <Icon className='admin-collapsed' type={this.state.icon} onClick={this.handleClick.bind(this)} />
-            </div>
+            <Header onCollapsedClick={this.handleCollapsedClick.bind(this)} />
           </Layout.Header>
           <Layout.Content className='admin-content' id="admin-content">
             <div className='admin-content-block'>
