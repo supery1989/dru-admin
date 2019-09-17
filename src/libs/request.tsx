@@ -18,9 +18,7 @@ export default function request(options: any = {}) {
   delete options.url
   if(data){
     delete options.data
-    options.body = JSON.stringify({
-      data
-    })
+    options.body = JSON.stringify(data)
   }
   options.headers={
     'Content-Type':'application/json'

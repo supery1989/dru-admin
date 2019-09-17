@@ -46,7 +46,7 @@ class App extends React.Component {
             </div>
           </Layout.Content>
           <Layout.Footer style={{textAlign: 'center'}} className='admin-footer'>
-            <Copyright author='supery-y' />
+            <Copyright author='dru' />
           </Layout.Footer>
         </Layout.Content>
         <BackTop />
