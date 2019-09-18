@@ -20,7 +20,7 @@ class CustomMenu extends Component<CustomMenuProps> {
   }
 
   componentDidMount() {
-    const pathname = location.hash.split('#')[1]
+    const pathname = location.hash.split('#')[1].split('?')[0]
     this.setState({
       selectedKey: pathname
     })

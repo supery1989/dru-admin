@@ -3,8 +3,6 @@ import { Table, Page, Breadcrumb, Popup, Input, Button, Divider, Notification, M
 import request from '../libs/request'
 import '../style/List.scss'
 
-
-
 export interface ListProps {
   history?: any
 }
@@ -50,7 +48,7 @@ class List extends Component<ListProps> {
       prop: 'updateTime',
       render: function(data: any) {
         if (data.updateTime !== undefined) {
-          return Moment(new Date(data.updateTime), 'YYYY-MM-DD HH:mm:ss')
+          return Moment(data.updateTime, 'YYYY-MM-DD HH:mm:ss')
         }
         return '--'
       }
@@ -60,7 +58,10 @@ class List extends Component<ListProps> {
       btnConfig: {
         text: '编辑',
         onClick: (row: any) => {
-          console.dir(row)
+          this.props.history.push({
+            pathname: '/components/add',
+            search: `?_id=${row._id}`
+          })
         }
       },
     },
