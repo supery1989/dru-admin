@@ -5,6 +5,7 @@ import { Menu, Icon } from 'dru'
 export interface CustomMenuProps {
   menus: any,
   collapsed: boolean,
+  selected?: any
 }
 
 class CustomMenu extends Component<CustomMenuProps> {
@@ -14,21 +15,17 @@ class CustomMenu extends Component<CustomMenuProps> {
     super(props)
 
     this.state = {
-      selectedKey: '',
+      selectedKey: props.selected,
       collapsed: props.collapsed
     }
-  }
-
-  componentDidMount() {
-    const pathname = location.hash.split('#')[1].split('?')[0]
-    this.setState({
-      selectedKey: pathname
-    })
   }
 
   componentWillReceiveProps(nextProps: CustomMenuProps) {
     if (this.props.collapsed !== nextProps.collapsed) {
       this.setState({ collapsed: nextProps.collapsed })
+    }
+    if (this.props.selected !== nextProps.selected) {
+      this.setState({ selectedKey: nextProps.selected })
     }
   }
 

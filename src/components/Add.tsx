@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
 import { Breadcrumb, Divider, Field, Button, Form, Popup, Loading } from 'dru'
+import PrimaryClassificationOptions from '../dict/PrimaryClassificationOptions'
+import SecondaryClassificationOptions from '../dict/SecondaryClassificationOptions'
+import ThirdClassificationOptions from '../dict/ThirdClassificationOptions'
+import TypeOptions from '../dict/TypeOptions'
+import TagOptions from '../dict/TagOptions'
 import request from '../libs/request'
 import '../style/Add.scss'
 
@@ -15,6 +20,7 @@ class Add extends Component<AddProps> {
     submitParmas: {
       primaryClassification: '',
       secondaryClassification: '',
+      thirdClassification: '',
       question: '',
       answer: '',
       tag: [],
@@ -38,6 +44,7 @@ class Add extends Component<AddProps> {
             const {
               primaryClassification,
               secondaryClassification,
+              thirdClassification,
               question,
               answer,
               tag,
@@ -47,6 +54,7 @@ class Add extends Component<AddProps> {
             self.submitParmas = {
               primaryClassification,
               secondaryClassification,
+              thirdClassification,
               question,
               answer,
               tag,
@@ -119,21 +127,6 @@ class Add extends Component<AddProps> {
   }
 
   render() {
-    const primaryClassificationOptions = [
-      { label: 'js', value: 'js' },
-      {label: 'nginx', value: 'nginx' }
-    ]
-    const secondaryClassificationOptions = [
-      { label: 'es5', value: 'es5' },
-      { label: 'es6', value: 'es6' },
-    ]
-    const tagOptions = [
-      { label: 'promise', value: 'promise' },
-      { label: 'this', value: 'this' }
-    ]
-    const typeOptions = [
-      { label: 'input', value: 'input' }
-    ]
     const { submitParmas, loading } = this.state
     return (
       <Loading loading={loading}>
@@ -146,11 +139,12 @@ class Add extends Component<AddProps> {
         <Divider />
         <div className='cms-add'>
           <Form ref='form' labelWidth={100}>
-            <Field type='select' options={primaryClassificationOptions} value={submitParmas['primaryClassification']} label='一级栏目' getValue={this.handleValue.bind(this, 'primaryClassification')} />
-            <Field type='select' value={submitParmas['secondaryClassification']} options={secondaryClassificationOptions} label='二级栏目' getValue={this.handleValue.bind(this, 'secondaryClassification')} />
-            <Field type='select' options={typeOptions} value={submitParmas['type']} label='题目类型' getValue={this.handleValue.bind(this, 'type')} />
+            <Field type='select' options={PrimaryClassificationOptions} value={submitParmas['primaryClassification']} label='一级栏目' getValue={this.handleValue.bind(this, 'primaryClassification')} />
+            <Field type='select' value={submitParmas['secondaryClassification']} options={SecondaryClassificationOptions} label='二级栏目' getValue={this.handleValue.bind(this, 'secondaryClassification')} />
+            <Field type='select' value={submitParmas['thirdClassification']} options={ThirdClassificationOptions} label='三级栏目' getValue={this.handleValue.bind(this, 'thirdClassification')} />
+            <Field type='select' options={TypeOptions} value={submitParmas['type']} label='题目类型' getValue={this.handleValue.bind(this, 'type')} />
             <Field type='switch' value={submitParmas['disabled']} label='是否禁用' getValue={this.handleValue.bind(this, 'disabled')} />
-            <Field type='checkbox' value={submitParmas['tag']} options={tagOptions} label='标签' getValue={this.handleValue.bind(this, 'tag')} />
+            <Field type='checkbox' value={submitParmas['tag']} options={TagOptions} label='标签' getValue={this.handleValue.bind(this, 'tag')} />
             <Field label='题目' value={submitParmas['question']} getValue={this.handleValue.bind(this, 'question')} />
             <Field type='textarea' value={submitParmas['answer']} label='答案' getValue={this.handleValue.bind(this, 'answer')} />
             <div className='cms-add-btn'>
