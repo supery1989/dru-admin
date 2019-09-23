@@ -59,7 +59,7 @@ class List extends Component<ListProps> {
         text: '编辑',
         onClick: (row: any) => {
           this.props.history.push({
-            pathname: '/components/add',
+            pathname: '/components/list-add',
             search: `?_id=${row._id}`
           })
         }
@@ -138,7 +138,7 @@ class List extends Component<ListProps> {
   }
 
   toPlus() {
-    this.props.history.push('/components/add')
+    this.props.history.push('/components/list-add')
   }
 
   render() {

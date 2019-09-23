@@ -14,7 +14,12 @@ const menus = [
   {
     title: '添加试题',
     icon: 'plussquare-o',
-    key: '/components/add'
+    key: '/components/list-add'
+  },
+  {
+    title: '添加栏目',
+    icon: 'bars',
+    key: '/components/category-add'
   }
 ]
 

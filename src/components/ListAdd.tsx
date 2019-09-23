@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
-import { Breadcrumb, Divider, Field, Button, Form, Popup, Loading } from 'dru'
-import PrimaryClassificationOptions from '../dict/PrimaryClassificationOptions'
-import SecondaryClassificationOptions from '../dict/SecondaryClassificationOptions'
-import ThirdClassificationOptions from '../dict/ThirdClassificationOptions'
+import { Field, Button, Form, Popup, Loading } from 'dru'
+import { observer } from 'mobx-react'
+import classOptionsStore from '../store/classOptionsStore'
 import TypeOptions from '../dict/TypeOptions'
 import TagOptions from '../dict/TagOptions'
 import request from '../libs/request'
+import TopBreadcrumb from '../common/Breadcrumb'
 import '../style/Add.scss'
 
-export interface  AddProps {
+export interface  ListAddProps {
   location?: any
 }
 
-class Add extends Component<AddProps> {
+@observer
+class ListAdd extends Component<ListAddProps> {
   submitParmas: any = {}
   _id: string = ''
   state = {
@@ -67,6 +68,7 @@ class Add extends Component<AddProps> {
             })
           }
         });
+      this.setSecondClass('root')
     }
   }
 
@@ -122,21 +124,27 @@ class Add extends Component<AddProps> {
     }
   }
 
+  setSecondClass(value: string, type?: string) {
+    if (value) {
+      classOptionsStore.getClassOptions(value, type)
+    }
+  }
+
   handleValue(param: string, value: any) {
+    if (param === 'primaryClassification') {
+      this.setSecondClass(value)
+    } else if (param === 'secondaryClassification') {
+      this.setSecondClass(value, 'third')
+    }
     this.submitParmas[param] = value
   }
 
   render() {
     const { submitParmas, loading } = this.state
+    const { PrimaryClassificationOptions, SecondaryClassificationOptions, ThirdClassificationOptions } = classOptionsStore
     return (
       <Loading loading={loading}>
-        <div className='cms-table-title'>
-          <Breadcrumb isRr className='cms-table-title-bread'>
-            <Breadcrumb.Item href='/'>首页</Breadcrumb.Item>
-            <Breadcrumb.Item>添加试题</Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <Divider />
+        <TopBreadcrumb lastName='添加试题' />
         <div className='cms-add'>
           <Form ref='form' labelWidth={100}>
             <Field type='select' options={PrimaryClassificationOptions} value={submitParmas['primaryClassification']} label='一级栏目' getValue={this.handleValue.bind(this, 'primaryClassification')} />
@@ -158,4 +166,4 @@ class Add extends Component<AddProps> {
   }
 }
 
-export default Add
+export default ListAdd

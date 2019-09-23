@@ -4,7 +4,8 @@ import LoadableComponent from '../libs/LoadableComponent'
 import Home from '../components/Home'
 
 const List = LoadableComponent(() => import('../components/List'))
-const Add = LoadableComponent(() => import('../components/Add'))
+const ListAdd = LoadableComponent(() => import('../components/ListAdd'))
+const CategoryAdd = LoadableComponent(() => import('../components/CategoryAdd'))
 
 class ComponentsRouter extends React.Component {
   render() {
@@ -15,7 +16,8 @@ class ComponentsRouter extends React.Component {
         )} />
         <Route exact path={`/components/home`} component={Home} />
         <Route exact path={`/components/list`} component={List} />
-        <Route exact path={`/components/add`} component={Add} />
+        <Route exact path={`/components/list-add`} component={ListAdd} />
+        <Route exact path={`/components/category-add`} component={CategoryAdd} />
         {/* <Route path='/components' exact component={(() =>
           <Redirect to='/components/overview' />
         )} />
