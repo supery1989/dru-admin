@@ -23,8 +23,16 @@ export default function request(options: any = {}) {
   options.headers={
     'Content-Type':'application/json'
   }
-  return fetch(url, options)
+  return fetch(`/api${url}`, options)
     .then(checkStatus)
     .then(parseJSON)
-    .catch(err=>({err}))
+    .then(res => {
+      if (res.success) {
+        return res.data
+      }
+      throw res.error || '未知错误'
+    })
+    .catch(err=>{
+      throw err.message || err.error || '未知错误'
+    })
 }

@@ -9,9 +9,10 @@ class classOptionsStore {
   @action
   getClassOptions(pid:string, type?: string) {
     const self = this
-    request({url: `/api/category/query?pid=${pid}`})
+    request({url: `/category/query?pid=${pid}`})
       .then(
         action((res: any) => {
+          console.dir(res)
           if (pid === 'root') {
             const PrimaryClassificationOptions: any = []
             res.data.forEach((item: any) => {

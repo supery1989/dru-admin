@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { Field, Button, Form, Popup, Loading } from 'dru'
+import { Field, Popup } from 'dru'
 import { observer } from 'mobx-react'
 import classOptionsStore from '../store/classOptionsStore'
 import TypeOptions from '../dict/TypeOptions'
 import TagOptions from '../dict/TagOptions'
 import request from '../libs/request'
-import TopBreadcrumb from '../common/Breadcrumb'
-import '../style/Add.scss'
+import TableAdd from '../common/TableAdd'
 
 export interface  ListAddProps {
   location?: any
@@ -26,7 +25,8 @@ class ListAdd extends Component<ListAddProps> {
       answer: '',
       tag: [],
       disabled: false,
-      type: ''
+      type: '',
+      judge: false
     }
   }
 
@@ -39,9 +39,9 @@ class ListAdd extends Component<ListAddProps> {
       this.setState({
         loading: true
       })
-      request({ url: `/api/questions/detail?_id=${_id}` })
+      request({ url: `/questions/detail?_id=${_id}` })
         .then(function(res) {
-          if (res.success) {
+          if (res[0]) {
             const {
               primaryClassification,
               secondaryClassification,
@@ -51,7 +51,8 @@ class ListAdd extends Component<ListAddProps> {
               tag,
               disabled,
               type,
-            } = res.data[0]
+              judge,
+            } = res[0]
             self.submitParmas = {
               primaryClassification,
               secondaryClassification,
@@ -61,67 +62,24 @@ class ListAdd extends Component<ListAddProps> {
               tag,
               disabled,
               type,
+              judge,
             }
             self.setState({
               submitParmas: self.submitParmas,
               loading: false
             })
+          } else {
+            self.setState({
+              loading: false
+            })
+            Popup.info({
+              title: '修改失败',
+              message: '请检查id',
+            })
           }
         });
-      this.setSecondClass('root')
     }
-  }
-
-  reset() {
-    (this.refs.form as any).reset()
-  }
-
-  submit() {
-    const self = this;
-    if (this._id) {
-      this.submitParmas._id = this._id
-      request({ url: '/api/questions/edit', method: 'post', data: this.submitParmas })
-      .then(function(res) {
-        if (res.success) {
-          Popup.success({
-            title: '恭喜您',
-            message: '题目修改成功',
-            onOk: function() {
-              location.reload()
-            }
-          })
-        } else {
-          Popup.error({
-            title: '修改失败',
-            message: '请重新操作',
-            onOk: function() {
-              self.submit()
-            }
-          })
-        }
-      });
-    } else {
-      request({ url: '/api/questions/add', method: 'post', data: this.submitParmas })
-      .then(function(res) {
-        if (res.success) {
-          Popup.success({
-            title: '恭喜您',
-            message: '题目添加成功',
-            onOk: function() {
-              location.reload()
-            }
-          })
-        } else {
-          Popup.error({
-            title: '添加失败',
-            message: '请重新操作',
-            onOk: function() {
-              self.submit()
-            }
-          })
-        }
-      });
-    }
+    this.setSecondClass('root')
   }
 
   setSecondClass(value: string, type?: string) {
@@ -143,25 +101,22 @@ class ListAdd extends Component<ListAddProps> {
     const { submitParmas, loading } = this.state
     const { PrimaryClassificationOptions, SecondaryClassificationOptions, ThirdClassificationOptions } = classOptionsStore
     return (
-      <Loading loading={loading}>
-        <TopBreadcrumb lastName='添加试题' />
-        <div className='cms-add'>
-          <Form ref='form' labelWidth={100}>
-            <Field type='select' options={PrimaryClassificationOptions} value={submitParmas['primaryClassification']} label='一级栏目' getValue={this.handleValue.bind(this, 'primaryClassification')} />
-            <Field type='select' value={submitParmas['secondaryClassification']} options={SecondaryClassificationOptions} label='二级栏目' getValue={this.handleValue.bind(this, 'secondaryClassification')} />
-            <Field type='select' value={submitParmas['thirdClassification']} options={ThirdClassificationOptions} label='三级栏目' getValue={this.handleValue.bind(this, 'thirdClassification')} />
-            <Field type='select' options={TypeOptions} value={submitParmas['type']} label='题目类型' getValue={this.handleValue.bind(this, 'type')} />
-            <Field type='switch' value={submitParmas['disabled']} label='是否禁用' getValue={this.handleValue.bind(this, 'disabled')} />
-            <Field type='checkbox' value={submitParmas['tag']} options={TagOptions} label='标签' getValue={this.handleValue.bind(this, 'tag')} />
-            <Field label='题目' value={submitParmas['question']} getValue={this.handleValue.bind(this, 'question')} />
-            <Field type='textarea' value={submitParmas['answer']} label='答案' getValue={this.handleValue.bind(this, 'answer')} />
-            <div className='cms-add-btn'>
-              <Button type='primary' onClick={this.submit.bind(this)}>提 交</Button>
-              <Button onClick={this.reset.bind(this)} className='cms-add-btn-reset'>重 置</Button>
-            </div>
-          </Form>
-        </div>
-      </Loading>
+      <TableAdd
+        loading={loading}
+        submitParmas={this.submitParmas}
+        _id={this._id}
+        dict='questions'
+      >
+        <Field className='field-inline' type='select' options={PrimaryClassificationOptions} value={submitParmas['primaryClassification']} label='一级栏目' getValue={this.handleValue.bind(this, 'primaryClassification')} />
+        <Field className='field-inline' type='select' value={submitParmas['secondaryClassification']} options={SecondaryClassificationOptions} label='二级栏目' getValue={this.handleValue.bind(this, 'secondaryClassification')} />
+        <Field className='field-inline' type='select' value={submitParmas['thirdClassification']} options={ThirdClassificationOptions} label='三级栏目' getValue={this.handleValue.bind(this, 'thirdClassification')} />
+        <Field className='field-inline' type='select' options={TypeOptions} value={submitParmas['type']} label='题目类型' getValue={this.handleValue.bind(this, 'type')} />
+        <Field className='field-inline' type='switch' value={submitParmas['disabled']} label='是否禁用' getValue={this.handleValue.bind(this, 'disabled')} />
+        <Field className='field-inline' type='switch' value={submitParmas['judge']} label='系统判卷' getValue={this.handleValue.bind(this, 'judge')} />
+        <Field type='checkbox' value={submitParmas['tag']} options={TagOptions} label='标签' getValue={this.handleValue.bind(this, 'tag')} />
+        <Field label='题目' value={submitParmas['question']} getValue={this.handleValue.bind(this, 'question')} />
+        <Field type='textarea' value={submitParmas['answer']} label='答案' getValue={this.handleValue.bind(this, 'answer')} />
+      </TableAdd>
     )
   }
 }

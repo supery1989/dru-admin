@@ -12,14 +12,9 @@ const menus = [
     key: '/components/list'
   },
   {
-    title: '添加试题',
-    icon: 'plussquare-o',
-    key: '/components/list-add'
-  },
-  {
-    title: '添加栏目',
+    title: '栏目管理',
     icon: 'bars',
-    key: '/components/category-add'
+    key: '/components/category-list'
   }
 ]
 
@@ -35,15 +30,19 @@ class Index extends React.Component<IndexProps> {
 
   componentDidMount() {
     this.setState({
-      current: this.props.location.pathname
+      current: this.transferPathname(this.props.location.pathname)
     })
   }
 
   componentWillReceiveProps(nextProps: IndexProps) {
     const pathname = nextProps.location.pathname
     if (this.props.location.pathname !== pathname) {
-      this.setState({ current: pathname })
+      this.setState({ current: this.transferPathname(pathname) })
     }
+  }
+
+  transferPathname(pathname: string) {
+    return pathname.replace('-add', '-list')
   }
 
   handleCollapsedClick(collapsed: boolean) {
